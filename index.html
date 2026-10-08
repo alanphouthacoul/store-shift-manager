@@ -72,7 +72,7 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 20px 24px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow-sm);
       display: flex;
       flex-direction: column;
@@ -91,9 +91,6 @@
       font-size: 1.65rem;
       font-weight: 700;
       color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .header-titles p {
@@ -107,6 +104,69 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
+    }
+
+    /* --- WEEK NAVIGATION BAR --- */
+    .week-navigator-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .week-navigator-card {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .week-nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .week-nav-arrows {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .week-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .week-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .current-week-tag {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .week-extra-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     /* --- BUTTONS --- */
@@ -158,12 +218,17 @@
     }
 
     .btn-sm {
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      min-height: 32px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      min-height: 34px;
     }
 
-    /* --- TOAST & NOTIFICATIONS --- */
+    .btn-icon-only {
+      padding: 8px;
+      min-width: 40px;
+    }
+
+    /* --- NOTIFICATIONS & TOASTS --- */
     #notification-container {
       margin-bottom: 20px;
       display: flex;
@@ -180,7 +245,6 @@
       font-size: 0.9rem;
       animation: fadeIn 0.25s ease-in-out;
       border: 1px solid transparent;
-      position: relative;
     }
 
     .alert-error {
@@ -216,7 +280,7 @@
       border: none;
       color: inherit;
       cursor: pointer;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       line-height: 1;
       opacity: 0.6;
       padding: 2px 6px;
@@ -370,7 +434,7 @@
 
     @media (min-width: 992px) {
       .day-selector-bar {
-        display: none; /* Hidden on large desktop since all columns show */
+        display: none;
       }
     }
 
@@ -420,7 +484,6 @@
       min-height: 280px;
     }
 
-    /* On mobile, only show active day unless "All Days" is selected */
     @media (max-width: 991px) {
       .day-column.mobile-hidden {
         display: none;
@@ -436,10 +499,21 @@
       align-items: center;
     }
 
+    .day-name-block {
+      display: flex;
+      flex-direction: column;
+    }
+
     .day-name {
       font-weight: 700;
       font-size: 0.95rem;
       color: var(--text-main);
+    }
+
+    .day-date-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     .day-count {
@@ -473,12 +547,11 @@
       padding: 10px 12px;
       border-radius: var(--radius-md);
       font-size: 0.825rem;
-      position: relative;
       display: flex;
       flex-direction: column;
       gap: 4px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      transition: box-shadow 0.1s ease;
     }
 
     .shift-card:hover {
@@ -503,9 +576,9 @@
       color: inherit;
       opacity: 0.6;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
       line-height: 1;
-      padding: 2px;
+      padding: 2px 4px;
       border-radius: 3px;
     }
     .shift-delete-btn:hover {
@@ -685,6 +758,14 @@
       margin-top: 24px;
     }
 
+    /* Print Header (Visible only when printing) */
+    .print-schedule-header {
+      display: none;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #000000;
+    }
+
     /* --- PRINT STYLES --- */
     @media print {
       body {
@@ -692,8 +773,11 @@
         color: #000000;
         padding: 0;
       }
-      .header-actions, .day-selector-bar, .day-add-btn, .shift-delete-btn, .employee-rename-btn, #notification-container {
+      .header-actions, .week-navigator-card, .day-selector-bar, .day-add-btn, .shift-delete-btn, .employee-rename-btn, #notification-container {
         display: none !important;
+      }
+      .print-schedule-header {
+        display: block !important;
       }
       .schedule-board {
         grid-template-columns: repeat(7, 1fr) !important;
@@ -717,7 +801,13 @@
 </head>
 <body>
   <div class="container">
-    <!-- HEADER -->
+    <!-- PRINT HEADER -->
+    <div class="print-schedule-header">
+      <h1 style="font-size: 1.5rem; font-weight: bold;">Store Weekly Shift Schedule</h1>
+      <p id="print-week-range" style="font-size: 1rem; color: #444; margin-top: 4px;"></p>
+    </div>
+
+    <!-- MAIN HEADER -->
     <header>
       <div class="header-titles">
         <h1>Store Shift Planner</h1>
@@ -730,9 +820,38 @@
         </button>
         <button id="sample-data-btn" class="btn btn-secondary">Load Sample Week</button>
         <button id="print-btn" class="btn btn-secondary">Print Schedule</button>
-        <button id="clear-all-btn" class="btn btn-danger-outline">Clear All</button>
+        <button id="clear-all-btn" class="btn btn-danger-outline">Clear This Week</button>
       </div>
     </header>
+
+    <!-- MULTI-WEEK NAVIGATOR BAR -->
+    <nav class="week-navigator-card" aria-label="Week Navigation">
+      <div class="week-nav-controls">
+        <div class="week-nav-arrows">
+          <button id="prev-week-btn" class="btn btn-secondary btn-icon-only" title="Previous Week" aria-label="Previous Week">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button id="next-week-btn" class="btn btn-secondary btn-icon-only" title="Next Week" aria-label="Next Week">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+        <div class="week-display">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span class="week-title" id="week-display-label">Week of Oct 5 – Oct 11, 2026</span>
+          <span class="current-week-tag" id="current-week-indicator">Current Week</span>
+        </div>
+      </div>
+
+      <div class="week-extra-actions">
+        <button id="today-week-btn" class="btn btn-secondary btn-sm" title="Jump to current calendar week">
+          Go to Current Week
+        </button>
+        <button id="copy-prev-week-btn" class="btn btn-secondary btn-sm" title="Copy schedule from previous week">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          Copy from Last Week
+        </button>
+      </div>
+    </nav>
 
     <!-- NOTIFICATION & ERROR MESSAGES CONTAINER -->
     <div id="notification-container" aria-live="polite"></div>
@@ -834,7 +953,7 @@
   </div>
 
   <script>
-    // --- STATE MANAGEMENT ---
+    // --- DATE & WEEK UTILITIES ---
     const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const DEFAULT_EMPLOYEES = [
       { id: 0, name: 'Alex Rivera' },
@@ -842,16 +961,78 @@
       { id: 2, name: 'Taylor Chen' }
     ];
 
+    // Helper: Normalize date to Monday 00:00:00 of that week
+    function getMondayOfWeek(d) {
+      const date = new Date(d);
+      const day = date.getDay();
+      const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
+      const monday = new Date(date.setDate(diff));
+      monday.setHours(0, 0, 0, 0);
+      return monday;
+    }
+
+    // Helper: Format Date to 'YYYY-MM-DD'
+    function toISODateKey(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    // Helper: Parse 'YYYY-MM-DD' back to Date object
+    function parseISODateKey(str) {
+      const [year, month, day] = str.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    // Helper: Human-readable week range label (e.g. "Oct 5 – Oct 11, 2026")
+    function formatWeekLabel(mondayDate) {
+      const sundayDate = new Date(mondayDate);
+      sundayDate.setDate(sundayDate.getDate() + 6);
+
+      const options = { month: 'short', day: 'numeric' };
+      const startStr = mondayDate.toLocaleDateString(undefined, options);
+      const endStr = sundayDate.toLocaleDateString(undefined, { ...options, year: 'numeric' });
+      return `Week of ${startStr} – ${endStr}`;
+    }
+
+    // Helper: Get formatted date string for a specific day in the selected week (e.g., "Oct 5")
+    function getDayDateString(mondayDate, dayIndex) {
+      const dayDate = new Date(mondayDate);
+      dayDate.setDate(dayDate.getDate() + dayIndex);
+      return dayDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }
+
+    // Initial base Monday for current calendar week
+    const systemMonday = getMondayOfWeek(new Date());
+    const initialWeekKey = toISODateKey(systemMonday);
+
+    // --- STATE INITIALIZATION ---
     let state = {
       employees: JSON.parse(localStorage.getItem('shift_planner_employees')) || DEFAULT_EMPLOYEES,
       shifts: JSON.parse(localStorage.getItem('shift_planner_shifts')) || [],
-      selectedMobileDay: 'all' // 'all' or day name
+      currentWeekId: localStorage.getItem('shift_planner_active_week') || initialWeekKey,
+      selectedMobileDay: 'all'
     };
+
+    // Data migration: ensure all existing shifts have a weekId
+    state.shifts = state.shifts.map(shift => {
+      if (!shift.weekId) {
+        return { ...shift, weekId: initialWeekKey };
+      }
+      return shift;
+    });
 
     function saveState() {
       localStorage.setItem('shift_planner_employees', JSON.stringify(state.employees));
       localStorage.setItem('shift_planner_shifts', JSON.stringify(state.shifts));
+      localStorage.setItem('shift_planner_active_week', state.currentWeekId);
       render();
+    }
+
+    // Get shifts for the currently viewed week
+    function getCurrentWeekShifts() {
+      return state.shifts.filter(s => s.weekId === state.currentWeekId);
     }
 
     // --- TIME CALCULATION HELPERS ---
@@ -865,7 +1046,6 @@
       let startMin = parseTimeToMinutes(startTime);
       let endMin = parseTimeToMinutes(endTime);
       if (endMin <= startMin) {
-        // Handle overnight shift if necessary, but in our retail context:
         endMin += 24 * 60;
       }
       return (endMin - startMin) / 60;
@@ -881,12 +1061,10 @@
     }
 
     // --- CONFLICT & ERROR CHECKING ENGINE ---
-    // Returns an object: { isValid: boolean, message: string, warnings: Array<string> }
     function validateShift(newShift, existingShiftId = null) {
       const startMin = parseTimeToMinutes(newShift.startTime);
       const endMin = parseTimeToMinutes(newShift.endTime);
 
-      // Check 1: Valid time range
       if (endMin <= startMin) {
         return {
           isValid: false,
@@ -894,7 +1072,6 @@
         };
       }
 
-      // Check 2: Minimum and maximum shift length
       const durationHours = (endMin - startMin) / 60;
       if (durationHours < 1) {
         return {
@@ -904,9 +1081,10 @@
       }
 
       const empName = state.employees.find(e => e.id === Number(newShift.employeeId))?.name || 'This team member';
+      const currentWeekShifts = getCurrentWeekShifts();
 
-      // Check 3: Overlapping shift for same employee on same day
-      const sameDayShifts = state.shifts.filter(s => 
+      // Check overlap for same employee on same day in the same week
+      const sameDayShifts = currentWeekShifts.filter(s => 
         s.day === newShift.day && 
         Number(s.employeeId) === Number(newShift.employeeId) && 
         s.id !== existingShiftId
@@ -916,7 +1094,6 @@
         const existingStart = parseTimeToMinutes(s.startTime);
         const existingEnd = parseTimeToMinutes(s.endTime);
 
-        // Check overlap condition: (StartA < EndB) and (EndA > StartB)
         if (startMin < existingEnd && endMin > existingStart) {
           return {
             isValid: false,
@@ -928,13 +1105,13 @@
       return { isValid: true };
     }
 
-    // Scan overall schedule for manager-friendly warnings (overtime, clopening, empty days)
     function analyzeScheduleWarnings() {
       const warnings = [];
+      const currentWeekShifts = getCurrentWeekShifts();
 
       // 1. Check weekly hours per employee (> 40h overtime)
       state.employees.forEach(emp => {
-        const empShifts = state.shifts.filter(s => Number(s.employeeId) === emp.id);
+        const empShifts = currentWeekShifts.filter(s => Number(s.employeeId) === emp.id);
         const totalHours = empShifts.reduce((acc, s) => acc + calculateDurationHours(s.startTime, s.endTime), 0);
         if (totalHours > 40) {
           warnings.push({
@@ -944,13 +1121,13 @@
         }
       });
 
-      // 2. Check for "Clopening" (closing late, then opening early the next day with < 10h rest)
+      // 2. Check for "Clopening" rest period (< 10 hours)
       for (let i = 0; i < DAYS.length - 1; i++) {
         const today = DAYS[i];
         const nextDay = DAYS[i + 1];
 
-        const todayShifts = state.shifts.filter(s => s.day === today);
-        const nextDayShifts = state.shifts.filter(s => s.day === nextDay);
+        const todayShifts = currentWeekShifts.filter(s => s.day === today);
+        const nextDayShifts = currentWeekShifts.filter(s => s.day === nextDay);
 
         todayShifts.forEach(tShift => {
           const matchingNext = nextDayShifts.find(nShift => Number(nShift.employeeId) === Number(tShift.employeeId));
@@ -971,10 +1148,10 @@
         });
       }
 
-      // 3. Check for uncovered days
+      // 3. Check for uncovered days (only if the week has at least one shift)
       DAYS.forEach(day => {
-        const count = state.shifts.filter(s => s.day === day).length;
-        if (count === 0 && state.shifts.length > 0) {
+        const count = currentWeekShifts.filter(s => s.day === day).length;
+        if (count === 0 && currentWeekShifts.length > 0) {
           warnings.push({
             type: 'warning',
             message: `Coverage notice: ${day} currently has no team members scheduled.`
@@ -1009,10 +1186,9 @@
       const container = document.getElementById('notification-container');
       const scheduleWarnings = analyzeScheduleWarnings();
       
-      // Combine user action alerts with dynamic warnings
       const combined = [
         ...activeAlerts,
-        ...scheduleWarnings.slice(0, 3) // show top 3 schedule advisory warnings
+        ...scheduleWarnings.slice(0, 3)
       ];
 
       if (combined.length === 0) {
@@ -1029,22 +1205,91 @@
       `).join('');
     }
 
+    // --- WEEK NAVIGATION LOGIC ---
+    function navigateWeek(offsetWeeks) {
+      const currentMonday = parseISODateKey(state.currentWeekId);
+      currentMonday.setDate(currentMonday.getDate() + (offsetWeeks * 7));
+      state.currentWeekId = toISODateKey(currentMonday);
+      saveState();
+
+      const weekShifts = getCurrentWeekShifts();
+      if (weekShifts.length === 0) {
+        showAlert(`Switched to ${formatWeekLabel(currentMonday)}. No shifts scheduled yet for this week.`, 'warning');
+      }
+    }
+
+    function goToCurrentWeek() {
+      state.currentWeekId = initialWeekKey;
+      saveState();
+      showAlert('Returned to the current calendar week.', 'success');
+    }
+
+    function copyFromPreviousWeek() {
+      const currentMonday = parseISODateKey(state.currentWeekId);
+      const prevMonday = new Date(currentMonday);
+      prevMonday.setDate(prevMonday.getDate() - 7);
+      const prevWeekKey = toISODateKey(prevMonday);
+
+      const prevWeekShifts = state.shifts.filter(s => s.weekId === prevWeekKey);
+      if (prevWeekShifts.length === 0) {
+        showAlert(`The previous week (${formatWeekLabel(prevMonday)}) has no shifts to copy.`, 'warning');
+        return;
+      }
+
+      const currentWeekShifts = getCurrentWeekShifts();
+      if (currentWeekShifts.length > 0) {
+        const proceed = confirm(`This week already has ${currentWeekShifts.length} shift(s). Would you like to copy ${prevWeekShifts.length} shift(s) from last week and append them?`);
+        if (!proceed) return;
+      }
+
+      // Clone shifts with new IDs and assigned to current week
+      const clonedShifts = prevWeekShifts.map(s => ({
+        ...s,
+        id: 'shift_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+        weekId: state.currentWeekId
+      }));
+
+      state.shifts.push(...clonedShifts);
+      saveState();
+      showAlert(`Successfully copied ${clonedShifts.length} shift(s) from last week!`, 'success');
+    }
+
+    function renderWeekNavigator() {
+      const currentMonday = parseISODateKey(state.currentWeekId);
+      const labelText = formatWeekLabel(currentMonday);
+      document.getElementById('week-display-label').textContent = labelText;
+      document.getElementById('print-week-range').textContent = labelText;
+
+      const isCurrentWeek = (state.currentWeekId === initialWeekKey);
+      const indicator = document.getElementById('current-week-indicator');
+      const todayBtn = document.getElementById('today-week-btn');
+
+      if (isCurrentWeek) {
+        indicator.style.display = 'inline-block';
+        todayBtn.style.opacity = '0.5';
+        todayBtn.disabled = true;
+      } else {
+        indicator.style.display = 'none';
+        todayBtn.style.opacity = '1';
+        todayBtn.disabled = false;
+      }
+    }
+
     // --- RENDERING VIEWS ---
     function renderTeamStats() {
       const container = document.getElementById('team-grid-container');
       const employeeSelect = document.getElementById('shift-employee');
+      const currentWeekShifts = getCurrentWeekShifts();
 
       container.innerHTML = '';
       employeeSelect.innerHTML = '';
 
       state.employees.forEach((emp, index) => {
-        // Calculate total hours
-        const empShifts = state.shifts.filter(s => Number(s.employeeId) === emp.id);
+        const empShifts = currentWeekShifts.filter(s => Number(s.employeeId) === emp.id);
         const totalHours = empShifts.reduce((acc, s) => acc + calculateDurationHours(s.startTime, s.endTime), 0);
         const targetHours = 40;
         const progressPct = Math.min(100, (totalHours / targetHours) * 100);
 
-        // Add to stats grid
         const card = document.createElement('div');
         card.className = `employee-card emp-theme-${index}`;
         card.innerHTML = `
@@ -1059,13 +1304,12 @@
             <span>Scheduled</span>
             <span class="hours-number">${totalHours.toFixed(1)} / ${targetHours} hrs</span>
           </div>
-          <div class="progress-bar-bg" title="${totalHours.toFixed(1)} hours scheduled">
+          <div class="progress-bar-bg" title="${totalHours.toFixed(1)} hours scheduled this week">
             <div class="progress-bar-fill" style="width: ${progressPct}%"></div>
           </div>
         `;
         container.appendChild(card);
 
-        // Populate modal select
         const option = document.createElement('option');
         option.value = emp.id;
         option.textContent = emp.name;
@@ -1104,8 +1348,11 @@
       const board = document.getElementById('schedule-board');
       board.innerHTML = '';
 
-      DAYS.forEach(day => {
-        const dayShifts = state.shifts
+      const currentMonday = parseISODateKey(state.currentWeekId);
+      const currentWeekShifts = getCurrentWeekShifts();
+
+      DAYS.forEach((day, index) => {
+        const dayShifts = currentWeekShifts
           .filter(s => s.day === day)
           .sort((a, b) => parseTimeToMinutes(a.startTime) - parseTimeToMinutes(b.startTime));
 
@@ -1136,9 +1383,14 @@
           }).join('');
         }
 
+        const dateSub = getDayDateString(currentMonday, index);
+
         column.innerHTML = `
           <div class="day-header">
-            <span class="day-name">${day}</span>
+            <div class="day-name-block">
+              <span class="day-name">${day}</span>
+              <span class="day-date-sub">${dateSub}</span>
+            </div>
             <span class="day-count">${dayShifts.length} ${dayShifts.length === 1 ? 'shift' : 'shifts'}</span>
           </div>
           <div class="day-shifts">
@@ -1155,6 +1407,7 @@
     }
 
     function render() {
+      renderWeekNavigator();
       renderTeamStats();
       renderMobileTabs();
       renderScheduleGrid();
@@ -1185,7 +1438,6 @@
       modal.classList.remove('active');
     }
 
-    // Handle Quick Shift Preset clicks
     document.querySelectorAll('.preset-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const start = e.target.getAttribute('data-start');
@@ -1200,12 +1452,12 @@
       });
     });
 
-    // Handle Shift Form Submission with Validations
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const shiftData = {
         id: document.getElementById('shift-edit-id').value || 'shift_' + Date.now(),
+        weekId: state.currentWeekId,
         day: document.getElementById('shift-day').value,
         employeeId: Number(document.getElementById('shift-employee').value),
         startTime: document.getElementById('shift-start').value,
@@ -1213,14 +1465,12 @@
         role: document.getElementById('shift-role').value.trim()
       };
 
-      // Validate Shift & friendly conflict check
       const validation = validateShift(shiftData, document.getElementById('shift-edit-id').value);
       if (!validation.isValid) {
         showAlert(validation.friendlyError, 'error');
         return;
       }
 
-      // Add to state
       state.shifts.push(shiftData);
       saveState();
       closeShiftModal();
@@ -1249,40 +1499,44 @@
       }
     }
 
-    // --- PRESET ACTIONS (LOAD SAMPLE, CLEAR, PRINT) ---
+    // --- SAMPLE DATA & ACTIONS ---
     function loadSampleWeek() {
-      state.shifts = [
-        // Monday
-        { id: 's1', day: 'Monday', employeeId: 0, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
-        { id: 's2', day: 'Monday', employeeId: 1, startTime: '12:00', endTime: '20:00', role: 'Mid Shift' },
-        // Tuesday
-        { id: 's3', day: 'Tuesday', employeeId: 1, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
-        { id: 's4', day: 'Tuesday', employeeId: 2, startTime: '14:00', endTime: '22:00', role: 'Evening / Close' },
-        // Wednesday
-        { id: 's5', day: 'Wednesday', employeeId: 0, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
-        { id: 's6', day: 'Wednesday', employeeId: 2, startTime: '11:00', endTime: '19:00', role: 'Stock & Inventory' },
-        // Thursday
-        { id: 's7', day: 'Thursday', employeeId: 0, startTime: '10:00', endTime: '18:00', role: 'Floor Lead' },
-        { id: 's8', day: 'Thursday', employeeId: 1, startTime: '14:00', endTime: '22:00', role: 'Evening / Close' },
-        // Friday
-        { id: 's9', day: 'Friday', employeeId: 0, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
-        { id: 's10', day: 'Friday', employeeId: 2, startTime: '14:00', endTime: '22:00', role: 'Evening / Close' },
-        // Saturday
-        { id: 's11', day: 'Saturday', employeeId: 1, startTime: '09:00', endTime: '17:00', role: 'Weekend Lead' },
-        { id: 's12', day: 'Saturday', employeeId: 2, startTime: '12:00', endTime: '20:00', role: 'Customer Service' },
-        // Sunday
-        { id: 's13', day: 'Sunday', employeeId: 0, startTime: '10:00', endTime: '16:00', role: 'Short Shift' },
-        { id: 's14', day: 'Sunday', employeeId: 1, startTime: '10:00', endTime: '18:00', role: 'Store Close' }
+      // Clear current week shifts first, then add sample shifts for this specific week
+      state.shifts = state.shifts.filter(s => s.weekId !== state.currentWeekId);
+
+      const sampleWeekShifts = [
+        { id: 's1_' + Date.now(), weekId: state.currentWeekId, day: 'Monday', employeeId: 0, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
+        { id: 's2_' + Date.now(), weekId: state.currentWeekId, day: 'Monday', employeeId: 1, startTime: '12:00', endTime: '20:00', role: 'Mid Shift' },
+        { id: 's3_' + Date.now(), weekId: state.currentWeekId, day: 'Tuesday', employeeId: 1, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
+        { id: 's4_' + Date.now(), weekId: state.currentWeekId, day: 'Tuesday', employeeId: 2, startTime: '14:00', endTime: '22:00', role: 'Evening / Close' },
+        { id: 's5_' + Date.now(), weekId: state.currentWeekId, day: 'Wednesday', employeeId: 0, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
+        { id: 's6_' + Date.now(), weekId: state.currentWeekId, day: 'Wednesday', employeeId: 2, startTime: '11:00', endTime: '19:00', role: 'Stock & Inventory' },
+        { id: 's7_' + Date.now(), weekId: state.currentWeekId, day: 'Thursday', employeeId: 0, startTime: '10:00', endTime: '18:00', role: 'Floor Lead' },
+        { id: 's8_' + Date.now(), weekId: state.currentWeekId, day: 'Thursday', employeeId: 1, startTime: '14:00', endTime: '22:00', role: 'Evening / Close' },
+        { id: 's9_' + Date.now(), weekId: state.currentWeekId, day: 'Friday', employeeId: 0, startTime: '08:00', endTime: '16:00', role: 'Morning / Open' },
+        { id: 's10_' + Date.now(), weekId: state.currentWeekId, day: 'Friday', employeeId: 2, startTime: '14:00', endTime: '22:00', role: 'Evening / Close' },
+        { id: 's11_' + Date.now(), weekId: state.currentWeekId, day: 'Saturday', employeeId: 1, startTime: '09:00', endTime: '17:00', role: 'Weekend Lead' },
+        { id: 's12_' + Date.now(), weekId: state.currentWeekId, day: 'Saturday', employeeId: 2, startTime: '12:00', endTime: '20:00', role: 'Customer Service' },
+        { id: 's13_' + Date.now(), weekId: state.currentWeekId, day: 'Sunday', employeeId: 0, startTime: '10:00', endTime: '16:00', role: 'Short Shift' },
+        { id: 's14_' + Date.now(), weekId: state.currentWeekId, day: 'Sunday', employeeId: 1, startTime: '10:00', endTime: '18:00', role: 'Store Close' }
       ];
+
+      state.shifts.push(...sampleWeekShifts);
       saveState();
-      showAlert('Sample weekly schedule loaded successfully!', 'success');
+      showAlert('Sample weekly schedule loaded for this week!', 'success');
     }
 
-    function clearAllShifts() {
-      if (confirm('Are you sure you want to clear all shifts for this week? This action cannot be undone.')) {
-        state.shifts = [];
+    function clearThisWeekShifts() {
+      const count = getCurrentWeekShifts().length;
+      if (count === 0) {
+        showAlert('There are no shifts scheduled in this week to clear.', 'warning');
+        return;
+      }
+
+      if (confirm(`Are you sure you want to clear all ${count} shift(s) for this week? Shifts in other weeks will remain safe.`)) {
+        state.shifts = state.shifts.filter(s => s.weekId !== state.currentWeekId);
         saveState();
-        showAlert('All shifts have been cleared.', 'success');
+        showAlert('This week’s shifts have been cleared.', 'success');
       }
     }
 
@@ -1291,15 +1545,20 @@
     document.getElementById('modal-close-x').addEventListener('click', closeShiftModal);
     document.getElementById('modal-cancel-btn').addEventListener('click', closeShiftModal);
     document.getElementById('sample-data-btn').addEventListener('click', loadSampleWeek);
-    document.getElementById('clear-all-btn').addEventListener('click', clearAllShifts);
+    document.getElementById('clear-all-btn').addEventListener('click', clearThisWeekShifts);
     document.getElementById('print-btn').addEventListener('click', () => window.print());
 
-    // Close modal when clicking outside box
+    // Week navigation listeners
+    document.getElementById('prev-week-btn').addEventListener('click', () => navigateWeek(-1));
+    document.getElementById('next-week-btn').addEventListener('click', () => navigateWeek(1));
+    document.getElementById('today-week-btn').addEventListener('click', goToCurrentWeek);
+    document.getElementById('copy-prev-week-btn').addEventListener('click', copyFromPreviousWeek);
+
+    // Modal background click and ESC
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeShiftModal();
     });
 
-    // Close modal on Escape key
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('active')) {
         closeShiftModal();
